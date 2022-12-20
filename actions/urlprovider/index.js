@@ -199,22 +199,35 @@ async function main (params) {
       pointerMappings[i] = currPointer;
     }
 
-    var outputstr = " " + numofslot;
+    /*var outputstr = [];
+    for (var i = 0;i<6;i++) {
+      var currList = listMappings[i];
+      var urls = [];
+      for (var j = 0;j<currList.getSize();j++) {
+        urls[j] = JSON.parse(currList.findAt(j)).url;
+      }
+      outputstr[i] = {"index":i,"urls":urls}
+    }*/
     var playlist = []
+    var pointers = [0, 0, 0, 0, 0, 0]
+    //var outputstr = "";
     for (var i = 0;i<numofslot;i++) {
       var slotnumber = i % 6;
-      var currPointer = pointerMappings[slotnumber];
+      if (slotnumber === 1) {
+        slotnumber = 0;
+      }
+      var currPointer = pointers[slotnumber];
       var currList = listMappings[slotnumber];
       if (currPointer < currList.getSize()) {
+        //outputstr = outputstr + " current point is " + currPointer;
         var nodeData = JSON.parse(currList.findAt(currPointer));
-        outputstr = outputstr + " " + nodeData.url;
         playlist[i] = {"Published Link":nodeData.url, "Duration":nodeData.duration}
-        currPointer = currPointer + 1;
+        pointers[slotnumber] = currPointer + 1;
       } else {
         currPointer = 0;
         var nodeData = JSON.parse(currList.findAt(currPointer));
         playlist[i] = {"Published Link":nodeData.url, "Duration":nodeData.duration}
-        currPointer = currPointer + 1;
+        pointers[slotnumber] = currPointer + 1;
       }
     }
 
