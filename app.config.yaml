@@ -1,0 +1,26 @@
+application:
+  actions: actions
+  web: web-src
+  runtimeManifest:
+    packages:
+      colesdemoapi:
+        license: Apache-2.0
+        actions:
+          urlprovider:
+            function: actions/urlprovider/index.js
+            web: 'yes'
+            runtime: nodejs:16
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              final: true
+          urllists:
+            function: actions/urllists/index.js
+            web: 'yes'
+            runtime: nodejs:16
+            inputs:
+              LOG_LEVEL: debug
+              apiKey: $SERVICE_API_KEY
+            annotations:
+              require-adobe-auth: true
+              final: true
